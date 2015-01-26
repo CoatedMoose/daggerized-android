@@ -10,7 +10,7 @@ import dagger.ObjectGraph;
 /**
  * Extend this class to have your application inject off of its graph
  */
-public class DaggerApplication extends Application implements Injector {
+public class DaggerApplication extends Application implements Injector, GraphHolder {
     private ObjectGraph applicationGraph;
 
     @Override
@@ -43,6 +43,11 @@ public class DaggerApplication extends Application implements Injector {
 
     @Override
     public ObjectGraph createObjectGraph(ObjectGraph parentGraph) {
-        return applicationGraph.plus(getModules());
+        return applicationGraph.plus(getModules().toArray());
+    }
+
+    @Override
+    public ObjectGraph getObjectGraph() {
+        return applicationGraph;
     }
 }

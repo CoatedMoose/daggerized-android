@@ -1,6 +1,8 @@
 package com.coatedmoose.daggerizedandroid;
 
 import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +14,37 @@ import dagger.ObjectGraph;
  */
 public abstract class DaggerService extends Service implements Injector {
     private ObjectGraph serviceGraph;
+    private boolean initialized = false;
+
+    @Override
+    public final int onStartCommand(Intent intent, int flags, int startId) {
+        initializeIfNeeded(intent);
+        return onStartCommandDagger(intent, flags, startId);
+    }
+
+    @Override
+    public final IBinder onBind(Intent intent) {
+        initializeIfNeeded(intent);
+        return onBindDagger(intent);
+    }
+
+    /**
+     * @see #onStartCommand(Intent, int, int)
+     */
+    protected int onStartCommandDagger(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    /**
+     * @see #onBind(Intent)
+     */
+    protected abstract IBinder onBindDagger(Intent intent);
 
     @Override
     public <T> T inject(T o) {
+        if (serviceGraph == null) {
+            throw new IllegalStateException("Service object graph must be initialized before calling inject");
+        }
         return serviceGraph.inject(o);
     }
 
@@ -32,6 +62,13 @@ public abstract class DaggerService extends Service implements Injector {
 
     @Override
     public ObjectGraph createObjectGraph(ObjectGraph parentGraph) {
-        return parentGraph.plus(getModules());
+        return parentGraph.plus(getModules().toArray());
+    }
+
+    private void initializeIfNeeded(Intent intent) {
+        if (!initialized) {
+            serviceGraph = createObjectGraph(((GraphHolder) getApplication()).getObjectGraph());
+            initialized = true;
+        }
     }
 }
