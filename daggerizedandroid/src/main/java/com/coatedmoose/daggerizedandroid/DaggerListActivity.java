@@ -28,14 +28,20 @@ public class DaggerListActivity extends ListActivity implements Injector, GraphH
 
     @Override
     public <T> T inject(T o) {
+        if (activityGraph == null) {
+            throw new IllegalStateException("Activity object graph needs to be initialized before calling inject");
+        }
         return activityGraph.inject(o);
     }
 
     @Override
     public <T> T get(Class<T> classType) {
+        if (activityGraph == null) {
+            throw new IllegalStateException(
+                    "Activity object graph needs to be initialized before getting an object from the graph");
+        }
         return activityGraph.get(classType);
     }
-
     @Override
     public List<Object> getModules() {
         List<Object> modules = new ArrayList<>();

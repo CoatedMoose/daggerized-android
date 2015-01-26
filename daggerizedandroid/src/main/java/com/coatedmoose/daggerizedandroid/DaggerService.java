@@ -50,6 +50,10 @@ public abstract class DaggerService extends Service implements Injector {
 
     @Override
     public <T> T get(Class<T> classType) {
+        if (serviceGraph == null) {
+            throw new IllegalStateException(
+                    "Service object graph needs to be initialized before getting an object from the graph");
+        }
         return serviceGraph.get(classType);
     }
 
