@@ -43,7 +43,7 @@ public class DaggerApplication extends Application implements Injector, GraphHol
 
     @Override
     public ObjectGraph createObjectGraph(ObjectGraph parentGraph) {
-        return applicationGraph.plus(getModules().toArray());
+        return parentGraph.plus(getModules().toArray());
     }
 
     @Override
