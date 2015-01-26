@@ -10,4 +10,14 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
     }
+
+    /**
+     * Test basic startup/shutdown of app
+     */
+    public void testSimpleCreate() throws InterruptedException {
+        createApplication();
+        Thread.sleep(5000);
+        terminateApplication();
+        Thread.sleep(5000);
+    }
 }
