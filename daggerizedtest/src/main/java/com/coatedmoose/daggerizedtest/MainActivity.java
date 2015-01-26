@@ -44,11 +44,15 @@ public class MainActivity extends DaggerFragmentActivity implements View.OnClick
 
         findViewById(R.id.app_ctx_test).setOnClickListener(this);
         findViewById(R.id.activity_ctx_test).setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         EditText editableText = (EditText) findViewById(R.id.saveable_text);
         editableText.setText(savedText.get());
         editableText.addTextChangedListener(this);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

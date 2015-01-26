@@ -1,21 +1,20 @@
 package com.coatedmoose.daggerizedtest;
 
-import android.app.Application;
 import android.test.ApplicationTestCase;
-import android.test.suitebuilder.annotation.MediumTest;
+import android.test.suitebuilder.annotation.SmallTest;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
-public class ApplicationTest extends ApplicationTestCase<Application> {
+@SmallTest
+public class ApplicationTest extends ApplicationTestCase<MyApplication> {
     public ApplicationTest() {
-        super(Application.class);
+        super(MyApplication.class);
     }
 
     /**
      * Test basic startup/shutdown of app
      */
-    @MediumTest
     public void testSimpleCreate() throws InterruptedException {
         createApplication();
         Thread.sleep(5000);
