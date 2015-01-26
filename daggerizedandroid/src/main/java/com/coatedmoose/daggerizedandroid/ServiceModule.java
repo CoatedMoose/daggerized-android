@@ -12,7 +12,8 @@ import dagger.Provides;
         addsTo = ApplicationModule.class,
         injects = {
                 DaggerService.class
-        }
+        },
+        library = true
 )
 public class ServiceModule {
     private final Service service;

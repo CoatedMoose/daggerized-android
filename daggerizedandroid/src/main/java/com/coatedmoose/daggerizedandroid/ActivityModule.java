@@ -16,7 +16,8 @@ import dagger.Provides;
         injects = {
                 DaggerFragmentActivity.class,
                 DaggerListActivity.class
-        }
+        },
+        library = true
 )
 public class ActivityModule {
 

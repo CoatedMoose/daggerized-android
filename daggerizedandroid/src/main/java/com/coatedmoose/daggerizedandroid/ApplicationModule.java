@@ -14,7 +14,8 @@ import dagger.Provides;
  * Manage default injections for a the application level graph
  */
 @Module(
-        injects = DaggerApplication.class
+        injects = DaggerApplication.class,
+        library = true
 )
 public class ApplicationModule {
 
