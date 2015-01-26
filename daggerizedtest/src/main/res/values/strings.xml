@@ -6,4 +6,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="app_ctx_test">Test application context</string>
+    <string name="activity_ctx_test">Test activity context</string>
+    <string name="toast_test_passed">Test passed</string>
+
 </resources>

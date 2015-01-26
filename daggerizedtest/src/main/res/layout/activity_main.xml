@@ -9,8 +9,23 @@
                 tools:context="com.coatedmoose.daggerizedtest.MainActivity">
 
     <EditText
+        android:id="@+id/saveable_text"
         android:text="@string/hello_world"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+
+    <Button
+        android:id="@+id/app_ctx_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/saveable_text"
+        android:text="@string/app_ctx_test"/>
+
+    <Button
+        android:id="@+id/activity_ctx_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_ctx_test"
+        android:text="@string/activity_ctx_test"/>
 </RelativeLayout>
