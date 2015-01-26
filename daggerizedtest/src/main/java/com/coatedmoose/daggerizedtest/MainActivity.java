@@ -2,9 +2,12 @@ package com.coatedmoose.daggerizedtest;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.coatedmoose.daggerizedandroid.ActivityModule;
@@ -15,11 +18,12 @@ import com.coatedmoose.daggerizedandroid.qualifier.ForApplication;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import dagger.Module;
 
 
-public class MainActivity extends DaggerFragmentActivity implements View.OnClickListener {
+public class MainActivity extends DaggerFragmentActivity implements View.OnClickListener, TextWatcher {
 
     @Inject
     @ForApplication
@@ -29,6 +33,10 @@ public class MainActivity extends DaggerFragmentActivity implements View.OnClick
     @ForActivity
     Context activityContext;
 
+    @Inject
+    @Named("saved_text")
+    StringPreference savedText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +44,9 @@ public class MainActivity extends DaggerFragmentActivity implements View.OnClick
 
         findViewById(R.id.app_ctx_test).setOnClickListener(this);
         findViewById(R.id.activity_ctx_test).setOnClickListener(this);
+        EditText editableText = (EditText) findViewById(R.id.saveable_text);
+        editableText.setText(savedText.get());
+        editableText.addTextChangedListener(this);
     }
 
 
@@ -82,8 +93,24 @@ public class MainActivity extends DaggerFragmentActivity implements View.OnClick
         return modules;
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // Do nothing
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        savedText.set(s.toString());
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        // Do nothing
+    }
+
     @Module(
-            addsTo = ActivityModule.class,
+            addsTo = MyApplicationModule.class,
+            includes = ActivityModule.class,
             injects = MainActivity.class
     )
     class MainActivityModule {

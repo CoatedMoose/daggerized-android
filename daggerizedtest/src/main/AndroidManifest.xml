@@ -3,7 +3,7 @@
     package="com.coatedmoose.daggerizedtest" >
 
     <application
-        android:name="com.coatedmoose.daggerizedandroid.DaggerApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
