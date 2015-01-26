@@ -1,1 +1,1 @@
-include ':daggerizedandroid'
+include ':daggerizedandroid', ':daggerizedtest'
