@@ -3,7 +3,3 @@ language: android
 android:
     components:
         - build-tools-21.1.2
-
-script:
-    - echo "Travis branch is $TRAVIS_BRANCH"
-    - echo "Travis branch is in pull request $TRAVIS_PULL+REQUEST"
