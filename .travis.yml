@@ -1,0 +1,14 @@
+language: android
+jdk: oraclejdk
+
+android:
+    components:
+        - build-tools-21.1.2
+
+before_script:
+    - ./ci/wait_for_emulator
+    - adb shell input keyevent 82 &
+
+script:
+    - echo "Travis branch is $TRAVIS_BRANCH"
+    - echo "Travis branch is in pull request $TRAVIS_PULL+REQUEST"
