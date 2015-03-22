@@ -3,19 +3,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = "1.0.0"
 group = "com.coatedmoose.android-utils"
-
-configurations {
-    archives {
-        extendsFrom configurations.default
-    }
-}
-
-signing {
-    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
-}
+archivesBaseName = "daggerized-android"
+version = "1.0.0"
 
 android {
     compileSdkVersion 21
@@ -43,41 +33,64 @@ dependencies {
     provided 'com.squareup.dagger:dagger-compiler:1.2.2'
 }
 
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
 uploadArchives {
-    configuration = configurations.archives
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-        repository(url: 'http://') {
-            authentication(userName: "$ossrhUsername",
-                           password: "$ossrhPassword")
-        }
-
-        pom.project {
-            name 'Daggerized Android'
-            packaging 'aar'
-            description 'Base Android classes with Dagger 1 hooks'
-            url 'https://github.com/CoatedMoose/daggerized-android'
-
-            scm {
-                url 'scm:git@github.com:CoatedMoose/daggerized-android.git'
-                connection 'scm:git@github.com:CoatedMoose/daggerized-android.git'
-                developerConnection 'scm:git@github.com:CoatedMoose/daggerized-android.git'
+            repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+                authentication(userName: "$ossrhUsername",
+                        password: "$ossrhPassword")
             }
 
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Daggerized Android'
+                packaging 'aar'
+                description 'Base Android classes with Dagger 1 hooks'
+                url 'https://github.com/CoatedMoose/daggerized-android'
+
+                scm {
+                    url 'scm:git@github.com:CoatedMoose/daggerized-android.git'
+                    connection 'scm:git@github.com:CoatedMoose/daggerized-android.git'
+                    developerConnection 'scm:git@github.com:CoatedMoose/daggerized-android.git'
                 }
-            }
 
-            developers {
-                developer {
-                    id 'CoatedMoose'
-                    name 'Andrew Crichton'
-                    email 'andrew@coatedmoose.com'
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'CoatedMoose'
+                        name 'Andrew Crichton'
+                        email 'andrew@coatedmoose.com'
+                    }
                 }
             }
         }
