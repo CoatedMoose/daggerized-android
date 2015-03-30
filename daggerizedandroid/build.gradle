@@ -3,10 +3,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-group = "com.coatedmoose.android-utils"
-archivesBaseName = "daggerized-android"
-version = "1.0.0"
-
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -15,7 +11,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
-        versionName "$version"
+        versionName "$VERSION_NAME"
     }
     buildTypes {
         release {
